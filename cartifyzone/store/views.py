@@ -178,14 +178,16 @@ def register(request):
             return render(
                 request,
                 'register.html',
-                {'error': 'Username already exists'}
+                {
+                    'error': 'Username already exists. Please login instead.',
+                }
             )
 
         User.objects.create_user(
-                 username=username,
-                 email=email,
-                password=password
-)
+            username=username,
+            email=email,
+            password=password
+        )
 
         return redirect('/login/')
 

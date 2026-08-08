@@ -1,94 +1,144 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Register</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | CartifyZone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/static/css/auth.css">
     <style>
-        body{
-            background: linear-gradient(135deg,#670a7aed,#de25eb);
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-family:Arial,sans-serif;
+        .auth-card {
+            width: min(460px, calc(100vw - 32px));
+            padding: 34px 30px;
+            border-radius: 28px;
+            background: #ffffff;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.1);
         }
 
-        .form-card{
-            background:white;
-            padding:40px;
-            border-radius:20px;
-            width:450px;
-            box-shadow:0 15px 30px rgba(0,0,0,0.2);
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #1d4ed8;
+            letter-spacing: 0.02em;
         }
 
-        .form-card h2{
-            text-align:center;
-            margin-bottom:25px;
-            color:#2563eb;
-            font-weight:700;
+        .brand-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
         }
 
-        .btn-success{
-            width:100%;
+        .auth-card h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 2.1vw, 2.4rem);
+            color: #0f172a;
+            line-height: 1.05;
         }
 
-        .login-link{
-            text-align:center;
-            margin-top:15px;
+        .auth-card p.subtitle {
+            margin: 0.75rem 0 1.9rem;
+            color: #475569;
+            font-size: 0.98rem;
+            line-height: 1.7;
+        }
+
+        .form-control {
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: #f8fafc;
+            color: #0f172a;
+            padding: 0.95rem 1rem;
+            box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.16);
+            border-color: #3b82f6;
+            background: #ffffff;
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 14px;
+            padding: 0.95rem 1rem;
+            background: linear-gradient(135deg, #3b82f6, #22c55e);
+            border: none;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb, #16a34a);
+        }
+
+        .auth-footer {
+            margin-top: 1.4rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .auth-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .alert-custom {
+            margin-bottom: 1.2rem;
+            padding: 1rem 1rem;
+            border-radius: 14px;
+            background: rgba(248, 113, 113, 0.12);
+            border: 1px solid rgba(248, 113, 113, 0.22);
+            color: #991b1b;
         }
     </style>
 </head>
 
 <body>
-
-<div class="form-card">
-
-    <h2>📝 Register</h2>
-
-    {% if error %}
-        <div class="alert alert-danger">
-            {{ error }}
+    <main class="auth-card">
+        <div class="brand">
+            <span class="brand-dot"></span>
+            CartifyZone
         </div>
-    {% endif %}
 
-    <form method="POST">
-        {% csrf_token %}
+        <h1>Create your account</h1>
+        <p class="subtitle">Register now to browse products, save your cart, and complete checkout in a polished
+            shopping experience.</p>
 
-        <input type="text"
-               name="username"
-               class="form-control mb-3"
-               placeholder="Username"
-               required>
+        {% if error %}
+        <div class="alert-custom">{{ error }}</div>
+        {% endif %}
 
-        <input type="email"
-               name="email"
-               class="form-control mb-3"
-               placeholder="Email"
-               required>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Your email address" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Create a password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Create account</button>
+        </form>
 
-        <input type="password"
-               name="password"
-               class="form-control mb-3"
-               placeholder="Password"
-               required>
-
-        <button type="submit"
-                class="btn btn-success">
-            Register
-        </button>
-
-    </form>
-
-    <div class="login-link">
-        Already have an account?
-        <a href="/login/">Login</a>
-    </div>
-
-</div>
-
+        <div class="auth-footer">
+            Already have an account? <a href="/login/">Login</a>
+        </div>
+    </main>
 </body>
-</html>
 
+</html>
