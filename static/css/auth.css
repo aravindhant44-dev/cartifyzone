@@ -21,15 +21,51 @@ body {
         #eef2ff;
 }
 
+.auth-page {
+    width: min(1200px, 100%);
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+}
+
+.auth-panel,
+.auth-side {
+    display: grid;
+    place-items: center;
+}
+
+@media (max-width: 960px) {
+    .auth-page {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
+}
+
 .auth-card {
-    width: min(520px, calc(100vw - 32px));
-    padding: 36px 32px;
-    border-radius: 28px;
-    background: #ffffff;
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    box-shadow: 0 32px 80px rgba(15, 23, 42, 0.09);
+    width: 100%;
+    max-width: 520px;
+    padding: 40px 36px;
+    border-radius: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 40px 100px rgba(15, 23, 42, 0.08);
     position: relative;
     overflow: hidden;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 55%);
+    border-radius: 50%;
+    top: -70px;
+    right: -70px;
 }
 
 .auth-card::before {
@@ -124,6 +160,19 @@ body {
     text-align: center;
     color: #64748b;
     font-size: 0.95rem;
+}
+
+.animate-fade {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .auth-footer a {
