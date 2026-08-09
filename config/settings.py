@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     
-    'cartifyzone.pythonanywhere.com',
+    "cartifyzoneweb.pythonanywhere.com",
     'localhost',
     '127.0.0.1',
 ]
