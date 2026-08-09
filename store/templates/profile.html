@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Profile</title>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .profile-card {
+            background: white;
+            width: 500px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, .2);
+        }
+
+        .profile-title {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 25px;
+        }
+
+        .info {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .home-btn {
+            display: block;
+            text-align: center;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .home-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="profile-card">
+
+        <h1 class="profile-title">👤 My Profile</h1>
+
+        <div class="info">
+            <strong>Username:</strong>
+            {{ request.user.username }}
+        </div>
+
+        <div class="info">
+            <strong>Email:</strong>
+            {{ user.email }}
+        </div>
+
+        <a href="/home/" class="home-btn">
+            🏠 Back Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>
