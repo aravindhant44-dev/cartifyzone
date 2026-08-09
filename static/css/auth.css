@@ -1,10 +1,9 @@
 :root {
-    color-scheme: light;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color-scheme: dark;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 16px;
-    line-height: 1.5;
-    background-color: #eef2ff;
-    color: #0f172a;
+    background-color: #050b1b;
+    color: #f8fafc;
 }
 
 * {
@@ -14,45 +13,336 @@
 body {
     margin: 0;
     min-height: 100vh;
-    display: grid;
-    place-items: center;
-    background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.14), transparent 22%),
-        #eef2ff;
+    background: radial-gradient(circle at top left, rgba(10, 25, 63, 0.95), transparent 20%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.98), transparent 30%),
+        linear-gradient(180deg, #020617 0%, #02122a 50%, #041a34 100%);
+    color: #f8fafc;
 }
 
 .auth-page {
-    width: min(1200px, 100%);
-    max-width: 1100px;
+    width: min(1240px, 100%);
+    max-width: 1240px;
     margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+}
+
+.auth-grid {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     gap: 2rem;
-    align-items: center;
-    padding: 2rem;
+    align-items: stretch;
+    min-height: 100vh;
 }
 
 .auth-panel,
 .auth-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    height: 100%;
+}
+
+.hero-panel {
+    width: 100%;
+    height: 100%;
+    max-width: 680px;
+    padding: 3rem;
+    border-radius: 36px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 40px 100px rgba(3, 10, 30, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.16), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.12), transparent 28%);
+    pointer-events: none;
+}
+
+.hero-branding {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.hero-logo-block h2 {
+    margin: 0;
+    color: #60A5FA;
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-shadow: 0 6px 18px rgba(96, 165, 250, 0.09), 0 1px 0 rgba(0, 0, 0, 0.18);
+}
+
+.hero-logo-block h2::before {
+    content: '';
+    width: 28px;
+    height: 20px;
+    display: inline-block;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2360A5FA'><path d='M7 4H3v2h2l3.6 7.59L7.25 17H20v-2H8.42l.93-1.73L18 6H7V4zM7 20a2 2 0 11.001-3.999A2 2 0 017 20zm10 0a2 2 0 11.001-3.999A2 2 0 0117 20z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-right: 0.4rem;
+    filter: drop-shadow(0 4px 8px rgba(96, 165, 250, 0.12));
+}
+
+.hero-brand-images {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.hero-brand-image-card {
+    width: 100%;
+    max-width: 160px;
+    aspect-ratio: 1.2 / 1;
+    padding: 0.75rem;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     display: grid;
     place-items: center;
 }
 
+.hero-copy {
+    position: relative;
+    z-index: 1;
+    margin-top: 2rem;
+    max-width: 38rem;
+}
+
+.hero-copy h1 {
+    margin: 0;
+    font-size: clamp(2.5rem, 4vw, 3.6rem);
+    line-height: 1.02;
+    color: #f8fafc;
+}
+
+.hero-copy p {
+    margin: 1rem 0 0;
+    max-width: 34rem;
+    color: rgba(241, 245, 249, 0.82);
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-tags span {
+    display: inline-flex;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #dbeafe;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-visual {
+    position: relative;
+    margin-top: 3rem;
+    min-height: 420px;
+    border-radius: 32px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.78), rgba(14, 20, 33, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.visual-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.28), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.2), transparent 24%),
+        radial-gradient(circle at 70% 80%, rgba(168, 85, 247, 0.16), transparent 24%);
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.floating-card {
+    position: absolute;
+    width: 190px;
+    padding: 1rem 1.1rem;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    z-index: 1;
+    animation: floatRise 6s ease-in-out infinite;
+}
+
+.floating-card span {
+    display: block;
+    opacity: 0.82;
+    font-size: 0.82rem;
+    margin-bottom: 0.5rem;
+}
+
+.floating-card strong {
+    display: block;
+    font-size: 1.1rem;
+    line-height: 1.25;
+}
+
+.floating-card-1 {
+    top: 3rem;
+    left: 3rem;
+}
+
+.floating-card-2 {
+    bottom: 3.4rem;
+    right: 3rem;
+    animation-delay: 1.2s;
+}
+
+.floating-cart {
+    position: absolute;
+    width: 115px;
+    height: 115px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(14, 165, 233, 0.18));
+    top: 35%;
+    right: 18%;
+    box-shadow: 0 30px 80px rgba(14, 165, 233, 0.18);
+    filter: blur(0.5px);
+    animation: floatRise 7.4s ease-in-out infinite reverse;
+}
+
+.floating-bubble {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.26);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+    opacity: 0.8;
+}
+
+.bubble-1 {
+    top: 22%;
+    right: 12%;
+}
+
+.bubble-2 {
+    bottom: 22%;
+    left: 14%;
+}
+
+.bubble-3 {
+    bottom: 12%;
+    right: 26%;
+}
+
+@keyframes floatRise {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+
+    50% {
+        transform: translateY(-12px) translateX(2px);
+    }
+}
+
+.animate-fade-left {
+    opacity: 0;
+    transform: translateX(-18px);
+    animation: fadeInLeft 0.9s ease forwards;
+}
+
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: fadeInUp 0.9s ease forwards;
+}
+
+@keyframes fadeInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (max-width: 960px) {
     .auth-page {
-        grid-template-columns: 1fr;
-        padding: 1.5rem;
+        padding: 1.5rem 1rem 2rem;
     }
+
+    .auth-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-panel,
+    .auth-side {
+        align-items: stretch;
+    }
+
+    align-items: center;
+}
+
+/* Strong override: ensure Show/Hide button sits inside the password input */
+.auth-side .auth-card .password-field {
+    position: relative !important;
+}
+
+.auth-side .auth-card .password-field input,
+.auth-side .auth-card .password-field .form-control {
+    padding-right: 90px !important;
+    box-sizing: border-box !important;
+}
+
+.auth-side .auth-card .password-toggle {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 999 !important;
 }
 
 .auth-card {
     width: 100%;
-    max-width: 520px;
+    align-items: flex-start;
     padding: 40px 36px;
     border-radius: 36px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     border: 1px solid rgba(148, 163, 184, 0.18);
-    box-shadow: 0 40px 100px rgba(15, 23, 42, 0.08);
+    align-items: center;
     position: relative;
     overflow: hidden;
 }
@@ -68,7 +358,7 @@ body {
     right: -70px;
 }
 
-.auth-card::before {
+.auth-card::after {
     content: '';
     position: absolute;
     width: 180px;
@@ -76,7 +366,8 @@ body {
     background: radial-gradient(circle, rgba(59, 130, 246, 0.16), transparent 52%);
     border-radius: 50%;
     top: -60px;
-    right: -60px;
+    left: -50px;
+    opacity: 0.55;
 }
 
 .brand {
@@ -113,6 +404,65 @@ body {
 
 .form-group {
     margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.65rem;
+    font-weight: 700;
+    color: #334155;
+}
+
+.password-group {
+    position: relative;
+}
+
+.password-field {
+    position: relative;
+    width: 100%;
+}
+
+/* Ensure password-field is centered even if other rules exist */
+.auth-side .auth-card .password-field {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Force vertical centering of the toggle inside the password-field */
+.auth-side .auth-card .password-toggle {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.password-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 90px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    border: none;
+    background: rgba(37, 99, 235, 0.10);
+    color: #2563eb;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.password-toggle:hover {
+    background: rgba(37, 99, 235, 0.16);
+}
+
+.password-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
 }
 
 .form-control {

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,79 +7,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | CartifyZone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/auth.css">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 
 <body>
     <div class="auth-page">
-        <section class="auth-panel animate-fade">
-            <div class="auth-card">
-                <div class="brand">
-                    <span class="brand-dot"></span>
-                    CartifyZone
-                </div>
-
-                <h1>Welcome back!</h1>
-                <p class="subtitle">Sign in securely and continue shopping with quick checkout and order tracking.</p>
-
-                {% if error %}
-                <div class="alert-custom">{{ error }}</div>
-                {% endif %}
-
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input id="username" type="text" name="username" class="form-control"
-                            placeholder="Enter your username" required>
+        <div class="auth-grid">
+            <section class="auth-panel animate-fade-left">
+                <div class="hero-panel">
+                    <div class="hero-branding">
+                        <div class="hero-logo-block">
+                            <h2>CartifyZone</h2>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" name="password" class="form-control"
-                            placeholder="Enter your password" required>
+                    <div class="hero-copy">
+                        <h1>Experience premium shopping.</h1>
+                        <p>Login to access saved carts, tailored offers, and a faster checkout experience.</p>
                     </div>
-                    <button type="submit" class="btn btn-primary">Login securely</button>
-                </form>
-
-                <div class="auth-footer">
-                    New here? <a href="/register/">Create an account</a>
+                    <div class="hero-tags">
+                        <span>Fast checkout</span>
+                        <span>Secure payments</span>
+                        <span>Exclusive deals</span>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="visual-glow"></div>
+                        <div class="floating-card floating-card-1">
+                            <span>New arrival</span>
+                            <strong>Smart Headset</strong>
+                        </div>
+                        <div class="floating-card floating-card-2">
+                            <span>Top trend</span>
+                            <strong>Luxury Backpack</strong>
+                        </div>
+                        <div class="floating-cart"></div>
+                        <div class="floating-bubble bubble-1"></div>
+                        <div class="floating-bubble bubble-2"></div>
+                        <div class="floating-bubble bubble-3"></div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <aside class="auth-side animate-fade">
-            <div class="side-card">
-                <div class="side-title">A smarter way to shop</div>
-                <h2>Fast, secure and reliable checkout</h2>
-                <p class="side-text">Enjoy saved carts, secure payments, and automatic order updates when you login to
-                    CartifyZone.</p>
+            <section class="auth-side animate-fade-up">
+                <div class="auth-card">
+                    <div class="brand">
+                        <span class="brand-dot"></span>
+                        CartifyZone
+                    </div>
 
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <span class="feature-icon">✓</span>
-                        <div>
-                            <strong>Secure payment</strong>
-                            <p>Encrypted and safe checkout for every order.</p>
+                    <h1>Welcome back!</h1>
+                    <p class="subtitle">Sign in securely and continue shopping with quick checkout and order tracking.
+                    </p>
+
+                    {% if error %}
+                    <div class="alert-custom">{{ error }}</div>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input id="username" type="text" name="username" class="form-control"
+                                placeholder="Enter your username" required>
                         </div>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon">⚡</span>
-                        <div>
-                            <strong>Fast order tracking</strong>
-                            <p>Track your package status from checkout to delivery.</p>
+                        <div class="form-group password-group">
+                            <label for="password">Password</label>
+                            <div class="password-field" style="position:relative; display:flex; align-items:center;">
+                                <input id="password" type="password" name="password" class="form-control"
+                                    placeholder="Enter your password" required style="padding-right:90px;">
+                                <button type="button" class="password-toggle" aria-label="Toggle password visibility"
+                                    style="position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:2;">Show</button>
+                            </div>
                         </div>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon">⭐</span>
-                        <div>
-                            <strong>Trusted marketplace</strong>
-                            <p>Thousands of happy customers shop with confidence.</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+                        <button type="submit" class="btn btn-primary">Login securely</button>
+                    </form>
+
+                    <div class="auth-footer">
+                        New here? <a href="/register/">Create an account</a>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.password-toggle').forEach(function (toggle) {
+                toggle.addEventListener('click', function () {
+                    var field = this.closest('.password-group').querySelector('input');
+                    if (!field) return;
+                    if (field.type === 'password') {
+                        field.type = 'text';
+                        this.textContent = 'Hide';
+                    } else {
+                        field.type = 'password';
+                        this.textContent = 'Show';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
