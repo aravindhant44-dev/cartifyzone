@@ -1,0 +1,1174 @@
+/* ==========================================================================
+   CartifyZone — Authentication UI (Login / Register)
+   Fully scoped under `.cz-auth` so no other page is affected.
+   ========================================================================== */
+
+:root {
+    --cz-ink: #0f172a;
+    --cz-ink-soft: #475569;
+    --cz-muted: #64748b;
+    --cz-line: #e2e8f0;
+    --cz-surface: #ffffff;
+    --cz-bg: #f4f6fb;
+
+    --cz-indigo: #4f46e5;
+    --cz-violet: #7c3aed;
+    --cz-pink: #ec4899;
+    --cz-teal: #0ea5e9;
+    --cz-danger: #e11d48;
+
+    --cz-grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 52%, #ec4899 100%);
+    --cz-grad-soft: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 55%, #fdf2f8 100%);
+
+    --cz-r-lg: 28px;
+    --cz-r-md: 16px;
+    --cz-r-sm: 12px;
+
+    --cz-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+    --cz-shadow-md: 0 18px 40px -18px rgba(15, 23, 42, 0.25);
+    --cz-shadow-lg: 0 40px 90px -30px rgba(49, 46, 129, 0.38);
+
+    --cz-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Reset (scoped) ---------- */
+body.cz-auth {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--cz-ink);
+    background-color: var(--cz-bg);
+    background-image:
+        radial-gradient(1100px 620px at 8% -10%, #e5e9ff 0%, rgba(229, 233, 255, 0) 60%),
+        radial-gradient(900px 520px at 100% 0%, #f5e6ff 0%, rgba(245, 230, 255, 0) 58%),
+        radial-gradient(900px 620px at 50% 115%, #dff1ff 0%, rgba(223, 241, 255, 0) 62%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+body.cz-auth *,
+body.cz-auth *::before,
+body.cz-auth *::after {
+    box-sizing: border-box;
+}
+
+body.cz-auth h1,
+body.cz-auth h2,
+body.cz-auth h3,
+body.cz-auth p,
+body.cz-auth ul,
+body.cz-auth li {
+    margin: 0;
+    padding: 0;
+}
+
+body.cz-auth ul {
+    list-style: none;
+}
+
+body.cz-auth a {
+    color: var(--cz-indigo);
+}
+
+/* ---------- Ambient background blobs ---------- */
+.cz-auth__bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.cz-auth__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.55;
+    will-change: transform;
+}
+
+.cz-auth__blob--1 {
+    width: 420px;
+    height: 420px;
+    top: -140px;
+    left: -110px;
+    background: radial-gradient(circle, #c7d2fe 0%, rgba(199, 210, 254, 0) 70%);
+    animation: cz-drift-a 24s ease-in-out infinite;
+}
+
+.cz-auth__blob--2 {
+    width: 380px;
+    height: 380px;
+    bottom: -150px;
+    right: -100px;
+    background: radial-gradient(circle, #fbcfe8 0%, rgba(251, 207, 232, 0) 70%);
+    animation: cz-drift-b 28s ease-in-out infinite;
+}
+
+.cz-auth__blob--3 {
+    width: 320px;
+    height: 320px;
+    top: 40%;
+    left: 55%;
+    background: radial-gradient(circle, #a5f3fc 0%, rgba(165, 243, 252, 0) 70%);
+    animation: cz-drift-c 32s ease-in-out infinite;
+}
+
+.cz-auth__bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 72%);
+    mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 72%);
+}
+
+@keyframes cz-drift-a {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(60px, 50px, 0) scale(1.12);
+    }
+}
+
+@keyframes cz-drift-b {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(-70px, -45px, 0) scale(1.15);
+    }
+}
+
+
+/* ---------- Shell / layout ---------- */
+.cz-auth__shell {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(1.5rem, 3vw, 2.75rem);
+    align-items: stretch;
+}
+
+.cz-auth__brand {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--cz-r-lg);
+    padding: clamp(2rem, 3.4vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    color: #ffffff;
+    background: var(--cz-grad);
+    box-shadow: var(--cz-shadow-lg);
+    animation: cz-rise 0.7s var(--cz-ease) both;
+}
+
+.cz-auth__brand::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(520px 320px at 88% 6%, rgba(255, 255, 255, 0.26), transparent 62%),
+        radial-gradient(420px 300px at 4% 96%, rgba(14, 165, 233, 0.34), transparent 64%);
+    pointer-events: none;
+}
+
+.cz-auth__brand > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo lockup */
+.cz-auth__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.cz-auth__logo-mark {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(6px);
+    transition: transform 0.35s var(--cz-ease), background 0.3s ease;
+}
+
+.cz-auth__logo:hover .cz-auth__logo-mark {
+    transform: rotate(-8deg) scale(1.06);
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.cz-auth__logo-mark svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+}
+
+/* ---------- Brand lockup contrast (Login left gradient panel) ----------
+   Scoped to `.cz-auth--login` AND under `.cz-auth__brand` so that:
+     1. the generic `body.cz-auth a` reset (specificity 0,1,2) cannot
+        recolour the brand name, and
+     2. the Register page (same markup) is completely unaffected.
+   Layout, spacing and dimensions are untouched — contrast comes from a
+   text-shadow plus an absolutely-positioned halo (zero flow impact).  */
+.cz-auth--login .cz-auth__brand .cz-auth__logo {
+    position: relative;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(49, 20, 92, 0.35), 0 2px 14px rgba(49, 20, 92, 0.30);
+    animation: cz-brand-in 0.75s var(--cz-ease) 0.1s both;
+}
+
+/* Soft halo behind the wordmark — decorative, out of flow */
+.cz-auth--login .cz-auth__brand .cz-auth__logo::before {
+    content: '';
+    position: absolute;
+    inset: -0.55rem -0.9rem;
+    border-radius: 999px;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.06) 70%, transparent 100%);
+    z-index: -1;
+    pointer-events: none;
+    animation: cz-brand-glow 5.5s ease-in-out 0.9s infinite;
+}
+
+/* Slightly firmer icon tile so the cart glyph reads clearly */
+.cz-auth--login .cz-auth__brand .cz-auth__logo-mark {
+    background: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 2px 10px rgba(49, 20, 92, 0.22);
+}
+
+@keyframes cz-brand-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Brand lockup contrast (Register left gradient panel) ----------
+   Mirrors the Login treatment so "CartifyZone" reads clearly on the
+   violet gradient. Scoped to `.cz-auth--register`, so the Login page
+   rules above are untouched. Specificity (0,2,1) beats the generic
+   `body.cz-auth a` reset (0,1,2) that dims the wordmark.
+   Layout, spacing and dimensions are unchanged — contrast comes from a
+   text-shadow plus an absolutely-positioned halo (zero flow impact).  */
+.cz-auth--register .cz-auth__brand .cz-auth__logo {
+    position: relative;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(49, 20, 92, 0.35), 0 2px 14px rgba(49, 20, 92, 0.30);
+    animation: cz-brand-in 0.75s var(--cz-ease) 0.1s both;
+}
+
+/* Soft static halo behind the wordmark — decorative, out of flow.
+   No looping animation here by design: Register gets a one-time
+   entrance only. */
+.cz-auth--register .cz-auth__brand .cz-auth__logo::before {
+    content: '';
+    position: absolute;
+    inset: -0.55rem -0.9rem;
+    border-radius: 999px;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.06) 70%, transparent 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Firmer icon tile so the cart glyph matches the readable wordmark */
+.cz-auth--register .cz-auth__brand .cz-auth__logo-mark {
+    background: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 2px 10px rgba(49, 20, 92, 0.22);
+}
+
+@keyframes cz-brand-glow {
+
+    0%,
+    100% {
+        opacity: 0.75;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.06);
+    }
+}
+
+.cz-auth__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.cz-auth__headline {
+    margin: 1rem 0 0.75rem;
+    font-size: clamp(1.9rem, 3.2vw, 2.65rem);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.cz-auth__lede {
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 1rem;
+    max-width: 34ch;
+}
+
+.cz-auth__perks {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 1.75rem;
+}
+
+.cz-auth__perk {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.8rem 0.95rem;
+    border-radius: var(--cz-r-md);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: transform 0.3s var(--cz-ease), background 0.3s ease;
+}
+
+.cz-auth__perk:hover {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.19);
+}
+
+.cz-auth__perk-icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.cz-auth__perk-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #ffffff;
+    stroke-width: 2.4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cz-auth__perk-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.cz-auth__perk-text span {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.cz-auth__stats {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cz-auth__stat strong {
+    display: block;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.cz-auth__stat span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- Card column ---------- */
+.cz-auth__panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: cz-rise 0.7s var(--cz-ease) 0.12s both;
+}
+
+.cz-auth__card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--cz-surface);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: var(--cz-r-lg);
+    padding: clamp(1.75rem, 3vw, 2.6rem);
+    box-shadow: var(--cz-shadow-md), var(--cz-shadow-sm);
+    transition: transform 0.4s var(--cz-ease), box-shadow 0.4s var(--cz-ease);
+}
+
+.cz-auth__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -24px rgba(15, 23, 42, 0.3), var(--cz-shadow-sm);
+}
+
+.cz-auth__card-logo {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    color: var(--cz-ink);
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+}
+
+.cz-auth__card-logo .cz-auth__logo-mark {
+    background: var(--cz-grad);
+    border: none;
+    color: #ffffff;
+}
+
+.cz-auth__card-logo .cz-auth__logo-mark svg {
+    stroke: currentColor;
+}
+
+.cz-auth__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: var(--cz-grad-soft);
+    border: 1px solid #e0e7ff;
+    color: var(--cz-indigo);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.cz-auth__badge svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cz-auth__title {
+    margin-top: 1.1rem;
+    font-size: clamp(1.65rem, 2.6vw, 2.05rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--cz-ink);
+}
+
+.cz-auth__subtitle {
+    margin-top: 0.55rem;
+    color: var(--cz-muted);
+    font-size: 0.95rem;
+}
+
+@keyframes cz-drift-c {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(-50px, -60px, 0) scale(0.9);
+    }
+}
+
+/* ---------- Alert (server-side error) ---------- */
+.cz-auth__alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    padding: 0.9rem 1rem;
+    border-radius: var(--cz-r-md);
+    background: #fff1f3;
+    border: 1px solid #fecdd6;
+    color: #9f1239;
+    font-size: 0.9rem;
+    font-weight: 500;
+    animation: cz-shake 0.5s var(--cz-ease) both;
+}
+
+.cz-auth__alert svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin-top: 2px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ---------- Form ---------- */
+.cz-auth__form {
+    margin-top: 1.75rem;
+    display: grid;
+    gap: 1.15rem;
+}
+
+.cz-auth__field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.cz-auth__label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cz-ink-soft);
+    letter-spacing: 0.01em;
+}
+
+.cz-auth__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cz-auth__icon {
+    position: absolute;
+    left: 15px;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    color: #94a3b8;
+    transition: color 0.25s ease, transform 0.25s var(--cz-ease);
+}
+
+.cz-auth__icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cz-auth__input {
+    width: 100%;
+    padding: 0.9rem 1rem 0.9rem 3rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--cz-ink);
+    background: #f8fafc;
+    border: 1.5px solid var(--cz-line);
+    border-radius: var(--cz-r-md);
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.cz-auth__input::placeholder {
+    color: #a3aec0;
+}
+
+.cz-auth__input:hover {
+    border-color: #cbd5e1;
+    background: #ffffff;
+}
+
+
+/* Password field + toggle */
+.cz-auth__input--password {
+    padding-right: 3.25rem;
+}
+
+.cz-auth__toggle {
+    position: absolute;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease, transform 0.2s var(--cz-ease);
+}
+
+.cz-auth__toggle svg {
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cz-auth__toggle:hover {
+    color: var(--cz-indigo);
+    background: rgba(79, 70, 229, 0.08);
+}
+
+
+/* ---------- Submit button ---------- */
+.cz-auth__submit {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.95rem 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    background: var(--cz-grad);
+    background-size: 180% 180%;
+    background-position: 0% 50%;
+    border: none;
+    border-radius: var(--cz-r-md);
+    cursor: pointer;
+    box-shadow: 0 12px 26px -12px rgba(79, 70, 229, 0.8);
+    transition: transform 0.22s var(--cz-ease), box-shadow 0.22s ease, background-position 0.5s ease;
+}
+
+.cz-auth__submit svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.25s var(--cz-ease);
+}
+
+/* Sheen sweep on hover */
+.cz-auth__submit::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+    transform: skewX(-18deg);
+    transition: left 0.65s ease;
+}
+
+.cz-auth__submit:hover {
+    transform: translateY(-2px);
+    background-position: 100% 50%;
+    box-shadow: 0 18px 34px -14px rgba(124, 58, 237, 0.85);
+}
+
+/* ---------- Footer link + trust row ---------- */
+.cz-auth__foot {
+    margin-top: 1.6rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--cz-line);
+    text-align: center;
+    font-size: 0.92rem;
+    color: var(--cz-muted);
+}
+
+.cz-auth__foot a {
+    position: relative;
+    font-weight: 700;
+    text-decoration: none;
+    background: var(--cz-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: opacity 0.2s ease;
+}
+
+.cz-auth__foot a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--cz-grad);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s var(--cz-ease);
+}
+
+.cz-auth__foot a:hover {
+    opacity: 0.85;
+}
+
+.cz-auth__foot a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.cz-auth__trust {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 1.1rem;
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+.cz-auth__trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.cz-auth__trust svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2.1;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ---------- Entrance keyframes ---------- */
+@keyframes cz-rise {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cz-shake {
+    0% {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    55% {
+        opacity: 1;
+        transform: translateX(4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes cz-pop {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Staggered child reveal inside the card */
+.cz-auth__card>*:not(.cz-auth__form) {
+    animation: cz-pop 0.55s var(--cz-ease) both;
+}
+
+.cz-auth__card>.cz-auth__badge {
+    animation-delay: 0.05s;
+}
+
+.cz-auth__card>.cz-auth__title {
+    animation-delay: 0.1s;
+}
+
+.cz-auth__card>.cz-auth__subtitle {
+    animation-delay: 0.15s;
+}
+
+.cz-auth__form .cz-auth__field {
+    animation: cz-pop 0.55s var(--cz-ease) both;
+}
+
+.cz-auth__form .cz-auth__field:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.cz-auth__form .cz-auth__field:nth-child(2) {
+    animation-delay: 0.27s;
+}
+
+.cz-auth__form .cz-auth__field:nth-child(3) {
+    animation-delay: 0.34s;
+}
+
+.cz-auth__form .cz-auth__submit {
+    animation-delay: 0.4s;
+}
+
+.cz-auth__foot {
+    animation-delay: 0.46s;
+}
+
+.cz-auth__trust {
+    animation-delay: 0.52s;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+    .cz-auth__shell {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+    }
+
+    .cz-auth__brand {
+        display: none;
+    }
+
+    .cz-auth__card-logo {
+        display: inline-flex;
+    }
+
+    .cz-auth__card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    body.cz-auth {
+        padding: 0;
+        align-items: flex-start;
+    }
+
+    .cz-auth__panel {
+        padding: 1.25rem 1rem 2rem;
+    }
+
+    .cz-auth__card {
+        border-radius: 22px;
+        padding: 1.6rem 1.25rem 1.75rem;
+        box-shadow: 0 18px 40px -22px rgba(15, 23, 42, 0.3);
+    }
+
+    .cz-auth__card:hover {
+        transform: none;
+    }
+
+    .cz-auth__submit {
+        padding: 0.9rem 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .cz-auth__input {
+        font-size: 0.9rem;
+        padding: 0.8rem 0.85rem 0.8rem 2.75rem;
+    }
+
+    .cz-auth__icon {
+        left: 12px;
+    }
+}
+
+/* ==========================================================================
+   LOGIN — background & motion refinement
+   Everything here is scoped to `.cz-auth--login`, so the Register page
+   (which shares this stylesheet and the same markup) is completely
+   unaffected. No structure, sizing, spacing or UI element is altered —
+   this block only adds layered background depth and slow ambient motion.
+   ========================================================================== */
+
+/* Richer blue → violet → cyan wash with a slow travelling sheen */
+body.cz-auth--login {
+    background-color: #eef1fb;
+    background-image:
+        radial-gradient(1100px 680px at 10% -12%, #c3cdff 0%, rgba(195, 205, 255, 0) 62%),
+        radial-gradient(980px 620px at 96% -6%, #ddc9ff 0%, rgba(221, 201, 255, 0) 60%),
+        radial-gradient(1040px 700px at 52% 114%, #b6e6ff 0%, rgba(182, 230, 255, 0) 64%),
+        radial-gradient(720px 520px at 84% 76%, #e4d2ff 0%, rgba(228, 210, 255, 0) 60%),
+        linear-gradient(165deg, #f8faff 0%, #eef1fb 52%, #e7ecf9 100%);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 200% 200%;
+    background-attachment: fixed;
+    animation: cz-bg-drift 16s ease-in-out infinite;
+}
+
+/* Ambient canvas: top sheen, corner vignette, and a soft indigo pool
+   behind the card area that gives the composition visible depth. */
+.cz-auth--login .cz-auth__bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 30%),
+        radial-gradient(78% 62% at 74% 52%, rgba(124, 92, 240, 0.10) 0%, rgba(124, 92, 240, 0) 72%),
+        radial-gradient(120% 92% at 50% 50%, rgba(255, 255, 255, 0) 48%, rgba(79, 70, 229, 0.10) 100%);
+    pointer-events: none;
+}
+
+/* Premium texture: film grain + dot lattice + hairline grid */
+.cz-auth--login .cz-auth__bg-grid {
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.30'/%3E%3C/svg%3E"),
+        radial-gradient(rgba(79, 70, 229, 0.15) 1px, transparent 1.4px),
+        linear-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px);
+    background-size: 180px 180px, 26px 26px, 104px 104px, 104px 104px;
+    -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 78%);
+    mask-image: radial-gradient(circle at 50% 42%, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 78%);
+    opacity: 0.6;
+    animation: cz-grid-fade 12s ease-in-out infinite;
+}
+
+/* Large, saturated glow blobs. Motion uses LOGIN-ONLY keyframes
+   (cz-lb-drift-*) so the shared cz-drift-a/b/c used by Register are
+   never altered. Durations sit in the requested 6-12s band. */
+.cz-auth--login .cz-auth__blob {
+    filter: blur(80px);
+    opacity: 0.75;
+}
+
+.cz-auth--login .cz-auth__blob--1 {
+    width: 620px;
+    height: 620px;
+    top: -220px;
+    left: -190px;
+    background: radial-gradient(circle, #a5b4fc 0%, rgba(165, 180, 252, 0) 70%);
+    animation: cz-lb-drift-1 9s ease-in-out infinite, cz-breathe 9s ease-in-out infinite;
+}
+
+.cz-auth--login .cz-auth__blob--2 {
+    width: 560px;
+    height: 560px;
+    bottom: -230px;
+    right: -170px;
+    background: radial-gradient(circle, #c4b5fd 0%, rgba(196, 181, 253, 0) 70%);
+    animation: cz-lb-drift-2 11s ease-in-out infinite, cz-breathe 11s ease-in-out infinite;
+}
+
+.cz-auth--login .cz-auth__blob--3 {
+    width: 520px;
+    height: 520px;
+    top: 34%;
+    left: 50%;
+    background: radial-gradient(circle, #7dd3fc 0%, rgba(125, 211, 252, 0) 70%);
+    animation: cz-lb-drift-3 12s ease-in-out infinite, cz-breathe 12s ease-in-out infinite;
+}
+
+/* Very subtle card settle.
+   `backwards` (not `both`) is deliberate: a forwards fill would pin
+   `transform` and out-rank the card's existing :hover lift. */
+.cz-auth--login .cz-auth__card {
+    animation: cz-card-settle 0.95s var(--cz-ease) 0.08s backwards;
+}
+
+@keyframes cz-lb-drift-1 {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(190px, 150px, 0) scale(1.18);
+    }
+}
+
+@keyframes cz-lb-drift-2 {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(-170px, -130px, 0) scale(1.15);
+    }
+}
+
+@keyframes cz-lb-drift-3 {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(-150px, 180px, 0) scale(1.2);
+    }
+}
+
+@keyframes cz-bg-drift {
+
+    0%,
+    100% {
+        background-position: 0% 50%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+
+    50% {
+        background-position: 8% 54%, 6% 4%, -6% 3%, 4% 5%, 100% 100%;
+    }
+}
+
+@keyframes cz-grid-fade {
+
+    0%,
+    100% {
+        opacity: 0.42;
+    }
+
+    50% {
+        opacity: 0.68;
+    }
+}
+
+@keyframes cz-breathe {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 0.88;
+    }
+}
+
+@keyframes cz-card-settle {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    body.cz-auth,
+    body.cz-auth *,
+    body.cz-auth *::before,
+    body.cz-auth *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+
+.cz-auth__submit:hover::after {
+    left: 130%;
+}
+
+.cz-auth__submit:hover svg {
+    transform: translateX(4px);
+}
+
+.cz-auth__submit:active {
+    transform: translateY(1px) scale(0.985);
+    box-shadow: 0 8px 18px -12px rgba(79, 70, 229, 0.9);
+}
+
+.cz-auth__submit:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, 0.4);
+    outline-offset: 3px;
+}
+
+.cz-auth__toggle:active {
+    transform: scale(0.9);
+}
+
+.cz-auth__toggle:focus-visible {
+    outline: 2px solid var(--cz-indigo);
+    outline-offset: 2px;
+}
+
+.cz-auth__toggle .cz-eye-off {
+    display: none;
+}
+
+.cz-auth__toggle[aria-pressed="true"] .cz-eye {
+    display: none;
+}
+
+.cz-auth__toggle[aria-pressed="true"] .cz-eye-off {
+    display: block;
+}
+
+.cz-auth__input:focus {
+    background: #ffffff;
+    border-color: var(--cz-indigo);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.14);
+}
+
+.cz-auth__control:focus-within .cz-auth__icon {
+    color: var(--cz-indigo);
+    transform: scale(1.08);
+}
+

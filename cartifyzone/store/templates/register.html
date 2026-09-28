@@ -5,135 +5,237 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | CartifyZone</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="description"
+        content="Create your CartifyZone account for saved carts, exclusive offers and fast checkout.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/auth.css">
-    <style>
-        /* Scoped overrides for Register page only — keep Login untouched */
-        body.register-page {
-            background: linear-gradient(135deg, #f8fafc 0%, #e6f2ff 100%);
-            color: #0f172a;
-            min-height: 100vh;
-        }
-
-        body.register-page .auth-page {
-            padding: 2rem 1.5rem 3rem;
-        }
-
-        /* Make side content clearly visible */
-        body.register-page .auth-side .side-card {
-            background: transparent;
-            color: #0f172a;
-            padding: 0;
-            box-shadow: none;
-        }
-
-        body.register-page .side-title {
-            color: #2563eb;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        body.register-page h2 {
-            color: #0f172a;
-        }
-
-        body.register-page .side-text,
-        body.register-page .feature-item p {
-            color: #475569;
-        }
-
-        body.register-page .feature-icon {
-            color: #2563eb;
-            font-weight: 700;
-            margin-right: 0.5rem;
-        }
-
-        /* Ensure auth-card remains unchanged but text uses dark color */
-        body.register-page .auth-card,
-        body.register-page .auth-card h1,
-        body.register-page .auth-card p,
-        body.register-page .auth-card .brand {
-            color: inherit;
-        }
-    </style>
-
 </head>
 
-<body class="register-page">
-    <div class="auth-page">
-        <section class="auth-panel animate-fade">
-            <div class="auth-card">
-                <div class="brand">
-                    <span class="brand-dot"></span>
-                    CartifyZone
-                </div>
+<body class="cz-auth cz-auth--register">
+    <div class="cz-auth__bg" aria-hidden="true">
+        <span class="cz-auth__blob cz-auth__blob--1"></span>
+        <span class="cz-auth__blob cz-auth__blob--2"></span>
+        <span class="cz-auth__blob cz-auth__blob--3"></span>
+        <span class="cz-auth__bg-grid"></span>
+    </div>
 
-                <h1>Create your account</h1>
-                <p class="subtitle">Join now to shop faster, save favorites, and access secure order tracking.</p>
+    <main class="cz-auth__shell">
+        <!-- Brand panel -->
+        <aside class="cz-auth__brand">
+            <a class="cz-auth__logo" href="/login/">
+                <span class="cz-auth__logo-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="20" r="1.4" />
+                        <circle cx="18" cy="20" r="1.4" />
+                        <path d="M2 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.3L21 7H5.2" />
+                    </svg>
+                </span>
+                CartifyZone
+            </a>
 
-                {% if error %}
-                <div class="alert-custom">{{ error }}</div>
-                {% endif %}
-
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input id="username" type="text" name="username" class="form-control"
-                            placeholder="Choose a username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input id="email" type="email" name="email" class="form-control"
-                            placeholder="Your email address" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" name="password" class="form-control"
-                            placeholder="Create a password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create account</button>
-                </form>
-
-                <div class="auth-footer">
-                    Already have an account? <a href="/login/">Login</a>
-                </div>
-            </div>
-        </section>
-
-        <aside class="auth-side animate-fade">
-            <div class="side-card">
-                <div class="side-title">Why join CartifyZone?</div>
-                <h2>Shop smarter with saved carts and fast checkout</h2>
-                <p class="side-text">Create an account to access personalized offers, quick order tracking, and secure
+            <div>
+                <span class="cz-auth__eyebrow">Join CartifyZone</span>
+                <h1 class="cz-auth__headline">Smarter shopping starts here.</h1>
+                <p class="cz-auth__lede">Create an account to unlock personalised offers, quick order tracking and secure
                     payment options.</p>
 
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <span class="feature-icon">✓</span>
-                        <div>
-                            <strong>Save your favorites</strong>
-                            <p>Store products for later and checkout when ready.</p>
-                        </div>
+                <ul class="cz-auth__perks">
+                    <li class="cz-auth__perk">
+                        <span class="cz-auth__perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                        </span>
+                        <span class="cz-auth__perk-text">
+                            <strong>Save your favourites</strong>
+                            <span>Store products for later and checkout when ready.</span>
+                        </span>
                     </li>
-                    <li class="feature-item">
-                        <span class="feature-icon">⚡</span>
-                        <div>
+                    <li class="cz-auth__perk">
+                        <span class="cz-auth__perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z" />
+                            </svg>
+                        </span>
+                        <span class="cz-auth__perk-text">
                             <strong>Fast checkout</strong>
-                            <p>Complete your order quickly with saved details.</p>
-                        </div>
+                            <span>Complete your order in a couple of taps.</span>
+                        </span>
                     </li>
-                    <li class="feature-item">
-                        <span class="feature-icon">🔒</span>
-                        <div>
+                    <li class="cz-auth__perk">
+                        <span class="cz-auth__perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="4" y="10" width="16" height="10" rx="2" />
+                                <path d="M8 10V7a4 4 0 1 1 8 0v3" />
+                            </svg>
+                        </span>
+                        <span class="cz-auth__perk-text">
                             <strong>Secure account</strong>
-                            <p>Protected login and payment security with every purchase.</p>
-                        </div>
+                            <span>Protected login and payment on every purchase.</span>
+                        </span>
                     </li>
                 </ul>
             </div>
+
+            <div class="cz-auth__stats">
+                <div class="cz-auth__stat">
+                    <strong>24k+</strong>
+                    <span>Happy shoppers</span>
+                </div>
+                <div class="cz-auth__stat">
+                    <strong>4.9/5</strong>
+                    <span>Customer rating</span>
+                </div>
+                <div class="cz-auth__stat">
+                    <strong>Free</strong>
+                    <span>Delivery over $50</span>
+                </div>
+            </div>
         </aside>
-    </div>
+        <!-- Register card -->
+        <section class="cz-auth__panel">
+            <div class="cz-auth__card">
+                <a class="cz-auth__card-logo" href="/login/">
+                    <span class="cz-auth__logo-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="20" r="1.4" />
+                            <circle cx="18" cy="20" r="1.4" />
+                            <path d="M2 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.3L21 7H5.2" />
+                        </svg>
+                    </span>
+                    CartifyZone
+                </a>
+
+                <span class="cz-auth__badge">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 21a8 8 0 0 1 16 0" />
+                    </svg>
+                    Free to join
+                </span>
+
+                <h2 class="cz-auth__title">Create your account</h2>
+                <p class="cz-auth__subtitle">Join now to shop faster, save favourites and track orders securely.</p>
+
+                {% if error %}
+                <div class="cz-auth__alert" role="alert">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 8v5M12 16.5h.01" />
+                    </svg>
+                    <span>{{ error }}</span>
+                </div>
+                {% endif %}
+
+                <form method="POST" class="cz-auth__form">
+                    {% csrf_token %}
+
+                    <div class="cz-auth__field">
+                        <label class="cz-auth__label" for="username">Username</label>
+                        <div class="cz-auth__control">
+                            <span class="cz-auth__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="8" r="4" />
+                                    <path d="M4 21a8 8 0 0 1 16 0" />
+                                </svg>
+                            </span>
+                            <input class="cz-auth__input" id="username" type="text" name="username"
+                                placeholder="Choose a username" autocomplete="username" required>
+                        </div>
+                    </div>
+
+                    <div class="cz-auth__field">
+                        <label class="cz-auth__label" for="email">Email address</label>
+                        <div class="cz-auth__control">
+                            <span class="cz-auth__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="3" y="5" width="18" height="14" rx="2.5" />
+                                    <path d="m3.5 7 8.5 6 8.5-6" />
+                                </svg>
+                            </span>
+                            <input class="cz-auth__input" id="email" type="email" name="email"
+                                placeholder="Your email address" autocomplete="email" required>
+                        </div>
+                    </div>
+                    <div class="cz-auth__field">
+                        <label class="cz-auth__label" for="password">Password</label>
+                        <div class="cz-auth__control">
+                            <span class="cz-auth__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="4" y="10" width="16" height="10" rx="2" />
+                                    <path d="M8 10V7a4 4 0 1 1 8 0v3" />
+                                </svg>
+                            </span>
+                            <input class="cz-auth__input cz-auth__input--password" id="password" type="password"
+                                name="password" placeholder="Create a password" autocomplete="new-password" required>
+                            <button type="button" class="cz-auth__toggle" data-cz-toggle="password"
+                                aria-label="Show password" aria-pressed="false">
+                                <svg class="cz-eye" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <svg class="cz-eye-off" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M10.6 6.2A9.9 9.9 0 0 1 12 6c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 7.4A17 17 0 0 0 2 13s3.6 7 10 7a9.6 9.6 0 0 0 4.2-1" />
+                                    <path d="M3 3l18 18" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="cz-auth__submit">
+                        <span>Create account</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                    </button>
+                </form>
+
+                <p class="cz-auth__foot">
+                    Already have an account? <a href="/login/">Login</a>
+                </p>
+
+                <ul class="cz-auth__trust">
+                    <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z" />
+                        </svg>
+                        Instant checkout
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M3 12a9 9 0 1 0 3-6.7" />
+                            <path d="M3 4v5h5" />
+                        </svg>
+                        Order tracking
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="4" y="10" width="16" height="10" rx="2" />
+                            <path d="M8 10V7a4 4 0 1 1 8 0v3" />
+                        </svg>
+                        Secure payments
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-cz-toggle]').forEach(function (toggle) {
+                var field = document.getElementById(toggle.getAttribute('data-cz-toggle'));
+                if (!field) return;
+                toggle.addEventListener('click', function () {
+                    var show = field.type === 'password';
+                    field.type = show ? 'text' : 'password';
+                    toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+                    field.focus();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
