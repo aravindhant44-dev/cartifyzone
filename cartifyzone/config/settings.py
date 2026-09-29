@@ -24,20 +24,12 @@ SECRET_KEY = 'django-insecure-1xbq0!_dqbfqngr3cj%8wc*y$@*0)!3v@aogz2fvx@u0i3!h#a
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "cartifyzone.vercel.app",
-    "cartifyzone-qjz59a0sv-aravindhant44-devs-projects.vercel.app",
-    ".vercel.app",
-]
+ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://cartifyzone.vercel.app",
-    "https://cartifyzone-qjz59a0sv-aravindh44-devs-projects.vercel.app",
     "https://*.vercel.app",
 ]
-
 
 # Application definition
 
