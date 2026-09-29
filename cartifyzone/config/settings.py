@@ -24,13 +24,16 @@ SECRET_KEY = 'django-insecure-1xbq0!_dqbfqngr3cj%8wc*y$@*0)!3v@aogz2fvx@u0i3!h#a
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "*",
+]
 
+
+# CSRF trusted domains
 CSRF_TRUSTED_ORIGINS = [
     "https://cartifyzone.vercel.app",
     "https://*.vercel.app",
 ]
-
 # Application definition
 
 INSTALLED_APPS = [
