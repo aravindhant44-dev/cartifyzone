@@ -28,8 +28,6 @@ ALLOWED_HOSTS = [
     "*",
 ]
 
-
-# CSRF trusted domains
 CSRF_TRUSTED_ORIGINS = [
     "https://cartifyzone.vercel.app",
     "https://*.vercel.app",
