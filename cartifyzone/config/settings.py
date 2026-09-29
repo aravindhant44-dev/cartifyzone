@@ -27,13 +27,14 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+    "cartifyzone.vercel.app",
+    "cartifyzone-qjz59a0sv-aravindhant44-devs-projects.vercel.app",
     ".vercel.app",
 ]
 
-
-# CSRF trusted origins
 CSRF_TRUSTED_ORIGINS = [
     "https://cartifyzone.vercel.app",
+    "https://cartifyzone-qjz59a0sv-aravindh44-devs-projects.vercel.app",
     "https://*.vercel.app",
 ]
 
