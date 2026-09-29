@@ -26,10 +26,13 @@ SECRET_KEY = 'django-insecure-1xbq0!_dqbfqngr3cj%8wc*y$@*0)!3v@aogz2fvx@u0i3!h#a
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    
-    'cartifyzone.pythonanywhere.com',
-    'localhost',
-    '127.0.0.1',
+    "localhost",
+    "127.0.0.1",
+    ".vercel.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
 ]
 
 
